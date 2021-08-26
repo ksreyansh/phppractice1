@@ -1,4 +1,11 @@
 <?php
+/**
+Code With Harry PHP CRUD Application modified as per latest technologies
+Original code: CodeWithHarry
+Current code author: Kumar Shreyansh
+Date: 26.08.2021
+Fuck iPhone!
+**/
 //Connect to the database
 $servername = "localhost";
 $username = "root";
@@ -14,6 +21,15 @@ if (!$conn) {
             </div>';
 }
 
+ if (isset($_GET['delete'])){
+      $sno = $_GET['delete'];
+      //echo $sno;
+      $delete = "DELETE FROM `notes` WHERE `notes`.`sno` = $sno;";
+      $dresult = mysqli_query($conn,$delete);      
+  }  
+
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -167,8 +183,8 @@ if (!$conn) {
                       <td>".$row['description']."</td>
                       <td>"."<div class='d-grid gap-2 d-md-flex'>
                             <button class='edit btn btn-primary me-md-2' type='button' id=".$row['sno'].">Edit</button>
-                            <a class='delete'><button class='btn btn-primary' type='button'>Delete</button>
-                            </a></div>"."</td>
+                            <button class='delete btn btn-primary' type='button' id=d".$row['sno'].">Delete</button>
+                            </div>"."</td>
                 </tr>";
             $s++;
         }    
@@ -176,10 +192,11 @@ if (!$conn) {
     ?>
     </tbody>
 </table>
+      </div>
+
     
 
-</div>
-    <!-- Optional JavaScript; choose one of the two! -->
+ <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
@@ -217,6 +234,22 @@ if (!$conn) {
                 keyboard: false
                 })
                 editModal.toggle();
+            })
+        })
+        
+        deletes = document.getElementsByClassName('delete');
+        Array.from(deletes).forEach((element)=>{
+            element.addEventListener("click", (e)=> {
+                console.log("delete", );
+                sno = e.target.id.substr(1,);
+                
+                if (confirm("Sure to delete?")){
+                    console.log("Yes");
+                    window.location=`/CRUDApp/welcome.php?delete=${sno}`;
+                }
+                else {
+                    console.log("No");
+                }
             })
         })
       
